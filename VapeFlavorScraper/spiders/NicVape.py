@@ -13,27 +13,26 @@ class NicvapeSpider(scrapy.Spider):
 
         #Get all the flavor items on this page
         item_links = response.css('div.caption > div.no-m-b > a::attr(href)').extract()
+
+        #If there are no flavor items on this page, then get out
+        if len(item_links) is 0:
+            return
+
+        #Process each flavor item
         for a in item_links:
-            yield scrapy.Request(a, callback=self.parse_detail_page)
+            yield scrapy.Request( 'https://www.nicvape.com' + a, callback=self.parse_detail_page)
 
         #Get the next page of items
-        #next_page = response.css('div.no-pad-lr > div.center > ul.pagination > li > a::attr(href)').extract_first()
-        next_page = 'https://www.nicvape.com/e-flavors?pi=' + self.page_number
-        page_number = page_number + 1
-        if next_page is not None:
-            yield response.follow(next_page, callback=self.parse)
+        next_page = 'https://www.nicvape.com/e-flavors?pi=' + str(self.page_number)
+        self.page_number = self.page_number + 1
+        yield response.follow(next_page, callback=self.parse)
 
     def parse_detail_page(self, response):
         name = response.css('h1.ProductDetailsProductName > span::text').extract()[0]
-        image_url = response.css('div.thumbnail > a.main-product-photo > img::attr(src)').extract()
-
-        #if len(image_url) is 0:
-        #    image_url = response.css('div.ty-product-img > a > img::attr(src)').extract()
+        image_url = 'https://www.nicvape.com/e-flavors' + response.css('div.thumbnail > a.main-product-photo > img::attr(src)').extract()[0]
 
         description = response.css('span.ProductDetailsBullets > ul > li').extract()
-
-        #if len(description) is 0:
-        #    description = response.css('div.wysiwyg-content > div::text').extract()[0]
+        description = ''.join( description )
 
         item = VapeFlavorItem()
         item['name'] = name

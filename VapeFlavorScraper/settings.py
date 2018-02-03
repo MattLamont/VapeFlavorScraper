@@ -74,7 +74,7 @@ ITEM_PIPELINES = {
     'VapeFlavorScraper.pipelines.VapeflavorscraperPipeline': 100,
     'VapeFlavorScraper.pipelines.DuplicatesPipeline': 200,
     'VapeFlavorScraper.pipelines.EmptyDescriptionPipeline': 300,
-    #'VapeFlavorScraper.pipelines.AddToDatabasePipeline': 400,
+    'VapeFlavorScraper.pipelines.AddToDatabasePipeline': 400,
     'VapeFlavorScraper.pipelines.JsonWriterPipeline': 500,
 }
 

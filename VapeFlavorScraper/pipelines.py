@@ -44,14 +44,21 @@ class AddToDatabasePipeline(object):
     username = ''
     password = ''
     token = ''
+    disabled = True
 
     def __init__(self, username , password , url ):
         self.username = username
         self.password = password
         self.url = url
+        self.prod = prod
 
+        if url is None:
+            self.disabled = True
+            return
+
+        self.disabled = False
         auth_url = str(self.url) + "/auth/login"
-        payload = {'username': self.username , 'password': self.password }
+        payload = {'email': self.username , 'password': self.password }
 
         r = requests.post( auth_url , data=payload )
         self.token = 'Bearer ' + r.json()['token']
@@ -59,9 +66,14 @@ class AddToDatabasePipeline(object):
     @classmethod
     def from_crawler(cls, crawler):
         settings = crawler.settings
-        return cls(settings['USERNAME'] , settings['PASSWORD'] , settings['URL'])
+        return cls(settings['USERNAME'] , settings['PASSWORD'] , settings['URL'] )
 
     def process_item(self, item, spider):
+
+        #if this is not production mode: skip writing to database
+        if self.disabled is True:
+            item['isNewFlavor'] = True
+            return item
 
         #setup the JSON payload
         payload = {'name': item['name'], 'description': item['description'], 'image_url': item['image_url'] , 'manufacturer': item['manufacturer'], 'link': item['link']}
@@ -87,6 +99,7 @@ class AddToDatabasePipeline(object):
         else:
             flavorPutURL = self.url + '/flavor'
             res = requests.post( flavorPutURL , headers=headers , data=payload )
+            logging.info( res.status_code )
             item['isNewFlavor'] = True
             logging.info( "Created Item: " + item['name'] )
 

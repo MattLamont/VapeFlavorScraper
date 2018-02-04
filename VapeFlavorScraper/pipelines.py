@@ -50,7 +50,6 @@ class AddToDatabasePipeline(object):
         self.username = username
         self.password = password
         self.url = url
-        self.prod = prod
 
         if url is None:
             self.disabled = True

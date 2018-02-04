@@ -15,8 +15,10 @@ import urllib
 from scrapy.utils.project import get_project_settings
 
 
-class VapeflavorscraperPipeline(object):
+class DefaultValuesPipeline(object):
     def process_item(self, item, spider):
+        item['failed'] = False
+        item['isNewFlavor'] = True
         return item
 
 class DuplicatesPipeline(object):
@@ -72,7 +74,6 @@ class AddToDatabasePipeline(object):
 
         #if this is not production mode: skip writing to database
         if self.disabled is True:
-            item['isNewFlavor'] = True
             return item
 
         #setup the JSON payload

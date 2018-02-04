@@ -16,4 +16,5 @@ example: `scrapy crawl FlavourArt -s USERNAME="myusername" -s PASSWORD="mypasswo
 
   * FlavourArt
   * NicVape
-  * Capella
+  * Capella (131 flavors)
+  * The Flavor Apprentice (294 flavors)

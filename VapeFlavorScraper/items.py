@@ -16,3 +16,4 @@ class VapeFlavorItem(scrapy.Item):
     description = scrapy.Field()
     manufacturer = scrapy.Field()
     isNewFlavor = scrapy.Field()
+    failed = scrapy.Field()

@@ -16,3 +16,4 @@ example: `scrapy crawl FlavourArt -s USERNAME="myusername" -s PASSWORD="mypasswo
 
   * FlavourArt
   * NicVape
+  * Capella

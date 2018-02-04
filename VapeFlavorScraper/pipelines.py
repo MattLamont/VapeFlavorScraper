@@ -10,6 +10,7 @@ import requests
 import logging
 import json
 import time
+import urllib
 
 from scrapy.utils.project import get_project_settings
 
@@ -81,10 +82,16 @@ class AddToDatabasePipeline(object):
         headers = {'Authorization' : self.token}
 
         #setup the flavor get URL where we will check if this flavor already exists
-        flavorGetURL = self.url + '/flavor?where={"name":"'+ item['name']  +'"}'
+        name = item['name'].replace( '&' , '%26' )
+        flavorGetURL = self.url + '/flavor?manufacturer='+ item['manufacturer']  + '&name=' + name
 
         #check for the current flavor already in the database
         res = requests.get( flavorGetURL , headers=headers )
+
+        #if the request failed (404) then mark the item as failed
+        if res.status_code is not 200:
+            item['failed'] = True
+            return item
 
         #if the flavor is already in the database, then we will just do an update with any new data
         if len( res.json() ) is not 0:
@@ -92,16 +99,30 @@ class AddToDatabasePipeline(object):
             flavorPutURL = self.url + '/flavor/' + str(flavorId)
             item['isNewFlavor'] = False
             res = requests.put( flavorPutURL , headers=headers , data=payload )
-            logging.info( "Updated Item: " + item['name'] )
+
+            if res.status_code is not 200:
+                item['failed'] = True
+                logging.info( "Item Failed: " + item['name'] )
+                return item
+
+            else:
+                logging.info( "Updated Item: " + item['name'] )
 
         #otherwise we will create a new flavor in the database
         else:
             flavorPutURL = self.url + '/flavor'
             res = requests.post( flavorPutURL , headers=headers , data=payload )
-            logging.info( res.status_code )
-            item['isNewFlavor'] = True
-            logging.info( "Created Item: " + item['name'] )
 
+            if res.status_code is not 201:
+                item['failed'] = True
+                logging.info( "Item Failed: " + item['name'] )
+                return item
+
+            else:
+                item['isNewFlavor'] = True
+                logging.info( "Created Item: " + item['name'] )
+
+        item['failed'] = False
         return item
 
 class JsonWriterPipeline(object):
@@ -111,14 +132,21 @@ class JsonWriterPipeline(object):
         timeString = time.strftime( "%Y-%m-%dT%H-%M-%S" , time.localtime() )
         updatedFileName = "data/%s/Updated_%s.json" % (spider.name , timeString )
         createdFileName = "data/%s/Created_%s.json" % (spider.name , timeString )
+        failedFileName = "data/%s/Failed_%s.json" % (spider.name , timeString )
         self.updatedFlavorFile = open(updatedFileName, 'w')
         self.createdFlavorFile = open(createdFileName, 'w')
+        self.failedFlavorFile = open(createdFileName, 'w')
 
     def close_spider(self, spider):
         self.updatedFlavorFile.close()
         self.createdFlavorFile.close()
 
     def process_item(self, item, spider):
+
+        if item['failed'] is True:
+            line = json.dumps(dict(item)) + "\n"
+            self.failedFlavorFile.write(line)
+            return item
 
         if item['isNewFlavor'] == True:
             line = json.dumps(dict(item)) + "\n"

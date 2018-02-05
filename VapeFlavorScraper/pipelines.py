@@ -136,11 +136,12 @@ class JsonWriterPipeline(object):
         failedFileName = "data/%s/Failed_%s.json" % (spider.name , timeString )
         self.updatedFlavorFile = open(updatedFileName, 'w')
         self.createdFlavorFile = open(createdFileName, 'w')
-        self.failedFlavorFile = open(createdFileName, 'w')
+        self.failedFlavorFile = open(failedFileName, 'w')
 
     def close_spider(self, spider):
         self.updatedFlavorFile.close()
         self.createdFlavorFile.close()
+        self.failedFlavorFile.close()
 
     def process_item(self, item, spider):
 

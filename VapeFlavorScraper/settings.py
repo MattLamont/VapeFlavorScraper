@@ -17,6 +17,7 @@ NEWSPIDER_MODULE = 'VapeFlavorScraper.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'VapeFlavorScraper (+http://www.yourdomain.com)'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -72,8 +73,10 @@ LOG_LEVEL = logging.INFO
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'VapeFlavorScraper.pipelines.DefaultValuesPipeline': 100,
+    'VapeFlavorScraper.pipelines.NameProcessingPipeline': 150,
+    'VapeFlavorScraper.pipelines.ImagePipeline' : 175,
     'VapeFlavorScraper.pipelines.DuplicatesPipeline': 200,
-    'VapeFlavorScraper.pipelines.EmptyDescriptionPipeline': 300,
+    'VapeFlavorScraper.pipelines.DescriptionPipeline': 300,
     'VapeFlavorScraper.pipelines.AddToDatabasePipeline': 400,
     'VapeFlavorScraper.pipelines.JsonWriterPipeline': 500,
 }

@@ -18,3 +18,7 @@ example: `scrapy crawl FlavourArt -s USERNAME="myusername" -s PASSWORD="mypasswo
   * NicVape
   * Capella (131 flavors)
   * The Flavor Apprentice (294 flavors)
+  * Mt Baker Vapor (21 flavors)
+  * AtmosLab (98 flavors)
+  * LiquidBarn (44 flavors)
+  * LorAnn (78 flavors) (Selenium required)

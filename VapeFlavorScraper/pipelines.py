@@ -21,6 +21,14 @@ class DefaultValuesPipeline(object):
         item['isNewFlavor'] = True
         return item
 
+class NameProcessingPipeline(object):
+
+    def process_item(self, item, spider):
+        name = item['name']
+        name = name.lower().title()
+        item['name'] = name
+        return item
+
 class DuplicatesPipeline(object):
 
     def __init__(self):
@@ -33,13 +41,40 @@ class DuplicatesPipeline(object):
             self.ids_seen.add(item['name'])
             return item
 
-class EmptyDescriptionPipeline(object):
+class DescriptionPipeline(object):
 
     def process_item(self, item, spider):
-        if len(item['description']) is 0:
+
+        if item['description'] is None:
             item['description'] = item['name']
+            return item
+
+        if isinstance( item['description'] , list ):
+
+            if( len(item['description']) == 0 ):
+                item['description'] = item['name']
+
+            else:
+                item['description'] = item['description'][0]
+                return item
 
         return item
+
+class ImagePipeline(object):
+
+    def process_item(self, item, spider):
+
+        if isinstance( item['image_url'] , list ):
+
+            if( len(item['image_url']) == 0 ):
+                item['image_url'] = ''
+                return item
+
+            else:
+                item['image_url'] = item['image_url'][0]
+                return item
+        else:
+            return item
 
 class AddToDatabasePipeline(object):
 

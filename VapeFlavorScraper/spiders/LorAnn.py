@@ -10,21 +10,17 @@ class LorAnnSpider(scrapy.Spider):
     name = 'LorAnn'
     allowed_domains = ['lorannoils.com']
     start_urls = [
-        'http://www.lorannoils.com/1-dram-size'
+        'http://www.lorannoils.com/1-dram-size',
+        'http://www.lorannoils.com/additional-natural-flavors'
     ]
-
-    def __init__(self):
-        self.driver = webdriver.Chrome("./drivers/chromedriver.exe")
-
-    def __del__(self):
-        self.driver.close()
 
     def parse(self, response):
 
-        self.driver.get(response.url)
+        driver = webdriver.Chrome("./drivers/chromedriver.exe")
+        driver.get(response.url)
 
         while True:
-            next = self.driver.find_element_by_css_selector('#cmdViewMore')
+            next = driver.find_element_by_css_selector('#cmdViewMore')
 
             try:
                 next.click()
@@ -32,18 +28,19 @@ class LorAnnSpider(scrapy.Spider):
             except:
                 break
 
-        item_links = self.driver.find_elements_by_css_selector('li.product-title > a')
+        item_links = driver.find_elements_by_css_selector('li.product-title > a')
 
         for item in item_links:
             yield scrapy.Request( item.get_attribute('href'), callback=self.parse_detail_page)
 
+        driver.close()
+
     def parse_detail_page(self, response):
 
         name = response.css('div.span8 > div.row-fluid.no-margin > h1::text').extract()[0]
-        logging.info( name )
         name = re.sub(r'Flavor' , '' , name ).strip()
         name = re.sub(r'1 dram' , '' , name ).strip()
-        logging.info( name )
+        name = re.sub(r'1  oz.' , '' , name ).strip()
         image_url = response.css('#product-detail-gallery-main-img::attr(src)').extract()[0]
         image_url = 'http://www.lorannoils.com' + image_url
 

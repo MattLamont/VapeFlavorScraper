@@ -21,4 +21,4 @@ example: `scrapy crawl FlavourArt -s USERNAME="myusername" -s PASSWORD="mypasswo
   * Mt Baker Vapor (21 flavors)
   * AtmosLab (98 flavors)
   * LiquidBarn (44 flavors)
-  * LorAnn (78 flavors) (Selenium required)
+  * LorAnn (90 flavors) (Selenium required)

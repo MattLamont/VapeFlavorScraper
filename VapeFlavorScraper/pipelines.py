@@ -11,6 +11,7 @@ import logging
 import json
 import time
 import urllib
+import re
 
 from scrapy.utils.project import get_project_settings
 
@@ -23,8 +24,20 @@ class DefaultValuesPipeline(object):
 
 class NameProcessingPipeline(object):
 
+    remove_strings = [
+        'Flavor',
+        '1 dram',
+        '1  oz.',
+        'Flavoring',
+        'ing'
+    ]
+
     def process_item(self, item, spider):
         name = item['name']
+
+        for replace in self.remove_strings:
+            name = re.sub(r'%s' % replace , '' , name ).strip()
+
         name = name.lower().title()
         item['name'] = name
         return item

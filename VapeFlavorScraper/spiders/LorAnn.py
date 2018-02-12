@@ -3,7 +3,6 @@ import logging
 from VapeFlavorScraper.items import VapeFlavorItem
 from selenium import webdriver
 import time
-import re
 
 
 class LorAnnSpider(scrapy.Spider):
@@ -38,9 +37,6 @@ class LorAnnSpider(scrapy.Spider):
     def parse_detail_page(self, response):
 
         name = response.css('div.span8 > div.row-fluid.no-margin > h1::text').extract()[0]
-        name = re.sub(r'Flavor' , '' , name ).strip()
-        name = re.sub(r'1 dram' , '' , name ).strip()
-        name = re.sub(r'1  oz.' , '' , name ).strip()
         image_url = response.css('#product-detail-gallery-main-img::attr(src)').extract()[0]
         image_url = 'http://www.lorannoils.com' + image_url
 

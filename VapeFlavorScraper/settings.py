@@ -73,6 +73,7 @@ LOG_LEVEL = logging.INFO
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'VapeFlavorScraper.pipelines.DefaultValuesPipeline': 100,
+    'VapeFlavorScraper.pipelines.ItemDropPipeline': 125,
     'VapeFlavorScraper.pipelines.NameProcessingPipeline': 150,
     'VapeFlavorScraper.pipelines.ImagePipeline' : 175,
     'VapeFlavorScraper.pipelines.DuplicatesPipeline': 200,

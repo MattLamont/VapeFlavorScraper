@@ -23,3 +23,7 @@ example: `scrapy crawl FlavourArt -s USERNAME="myusername" -s PASSWORD="mypasswo
   * LiquidBarn (44 flavors)
   * LorAnn (90 flavors) (Selenium required)
   * AzureVaping (255 flavors)
+  * Bickford (138 flavors)
+  * CupcakeWorld (107 flavors)
+  * DarkSideVapor (3 flavors)
+  * FlavourFog (23 flavors)

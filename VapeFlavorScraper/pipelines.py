@@ -22,14 +22,60 @@ class DefaultValuesPipeline(object):
         item['isNewFlavor'] = True
         return item
 
+class ItemDropPipeline(object):
+
+    drop_strings = [
+        '- Choose any 10 x 28.5ml of our Intense Flavours',
+        '- Choose any 5 x 28.5ml of our Intense Flavours',
+        '- Choose any 50 x 28.5ml of our Intense Flavours',
+        '- Choose any 6  x 28.5ml of our Intense Flavours',
+        '- Choose any 8 x 28.5ml of our Intense Flavours',
+        '- Choose any 20 x 28.5ml of our Intense Flavours',
+        '- Choose any 15 x 28.5ml of our Intense Flavours',
+        '- Choose any 12 x 28.5ml of our Intense Flavours',
+        'Strawberry Intense Flavour Range Food Flavours 100ml'
+    ]
+
+    def process_item(self, item, spider):
+        name = item['name']
+
+        for drop in self.drop_strings:
+            if drop == name:
+                raise DropItem("Dropping Bad item: %s" % item)
+
+        return item
+
 class NameProcessingPipeline(object):
 
     remove_strings = [
+        'Intense Flavour Range Food Flavourings 28.5ml',
+        'Intense Flavour Range Food Flavourimgs 28.5ml',
+        'Intense Flavour Range Food Flavouring 28.5ml',
+        'Intense Flavour Range Food Flavours 28.5ml',
+        'Intense Flavour Food Flavourings 28.5ml',
+        'Flavouring Intense Flavour Range 28.5ml',
+        'Intense Flavour Range Food Flavours',
+        'Intense Flavour Range Food Flavourings 100ml',
+        'Ntense Flavour Range Food Flavourings 28.5ml',
+        'Intense Flavour Range Food Flavourings 2.5ml',
+        'Intense Flavour Range Food Flavourings',
+        'Ntense Flavour Range Food Flavourings 28.5ml',
+        'Intense Flavour Range Food Flavouring',
+        'Ntense Flavour Range Food Flavourings 28.5Ml',
+        'ntense Flavour Range Food Flavourings 28.5ml',
+        'Flavoring',
         'Flavor',
         '1 dram',
         '1  oz.',
-        'Flavoring',
-        'ing'
+        'W.S.',
+        '100Ml',
+        'DSV',
+        '140ml',
+        '3ml',
+        '30ml',
+        '10ml',
+        'Liquid',
+        'FPF'
     ]
 
     def process_item(self, item, spider):
@@ -58,7 +104,7 @@ class DescriptionPipeline(object):
 
     def process_item(self, item, spider):
 
-        if item['description'] is None:
+        if item['description'] == '':
             item['description'] = item['name']
             return item
 

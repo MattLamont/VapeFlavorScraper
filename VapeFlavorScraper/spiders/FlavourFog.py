@@ -12,7 +12,7 @@ class FlavourFogSpider(scrapy.Spider):
 
         #Get all the flavor items on this page
         item_links = response.css('a.productnamecolor::attr(href)').extract()
-        logging.info( item_links[0])
+
         for a in item_links:
             yield scrapy.Request(a, callback=self.parse_detail_page)
 

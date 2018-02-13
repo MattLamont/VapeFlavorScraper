@@ -33,7 +33,8 @@ class ItemDropPipeline(object):
         '- Choose any 20 x 28.5ml of our Intense Flavours',
         '- Choose any 15 x 28.5ml of our Intense Flavours',
         '- Choose any 12 x 28.5ml of our Intense Flavours',
-        'Strawberry Intense Flavour Range Food Flavours 100ml'
+        'Strawberry Intense Flavour Range Food Flavours 100ml',
+        '0-Twist-Open Dispensing Cap'
     ]
 
     def process_item(self, item, spider):
@@ -63,6 +64,7 @@ class NameProcessingPipeline(object):
         'Intense Flavour Range Food Flavouring',
         'Ntense Flavour Range Food Flavourings 28.5Ml',
         'ntense Flavour Range Food Flavourings 28.5ml',
+        'Flavor Concentrate',
         'Flavoring',
         'Flavor',
         '1 dram',
@@ -75,7 +77,8 @@ class NameProcessingPipeline(object):
         '30ml',
         '10ml',
         'Liquid',
-        'FPF'
+        'FPF',
+        '\(MB\)'
     ]
 
     def process_item(self, item, spider):

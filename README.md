@@ -27,3 +27,6 @@ example: `scrapy crawl FlavourArt -s USERNAME="myusername" -s PASSWORD="mypasswo
   * CupcakeWorld (107 flavors)
   * DarkSideVapor (3 flavors)
   * FlavourFog (23 flavors)
+  * Molinberry (69 flavors)
+  * EllasGourmet (76 flavors)
+  * FlavorWest (367 flavors)

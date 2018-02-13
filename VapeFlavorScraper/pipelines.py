@@ -65,8 +65,13 @@ class NameProcessingPipeline(object):
         'Ntense Flavour Range Food Flavourings 28.5Ml',
         'ntense Flavour Range Food Flavourings 28.5ml',
         'Flavor Concentrate',
+        'comestible concentrate',
+        'by Inawera'
         'Flavoring',
         'Flavor',
+        'E-FLAVOUR',
+        'e-concentrate',
+        'concentrate',
         '1 dram',
         '1  oz.',
         'W.S.',
@@ -76,6 +81,7 @@ class NameProcessingPipeline(object):
         '3ml',
         '30ml',
         '10ml',
+        '10 ml',
         'Liquid',
         'FPF',
         '\(MB\)',
@@ -89,6 +95,7 @@ class NameProcessingPipeline(object):
         '16 oz.',
         '2 oz.',
         '1 gallon',
+        ',',
     ]
 
     def process_item(self, item, spider):

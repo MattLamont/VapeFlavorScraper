@@ -32,3 +32,4 @@ example: `scrapy crawl FlavourArt -s USERNAME="myusername" -s PASSWORD="mypasswo
   * FlavorWest (367 flavors)
   * CountryKitchen (6 flavors)
   * Flavorah (180 flavors)
+  * Inawera (267 flavors)

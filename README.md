@@ -30,3 +30,5 @@ example: `scrapy crawl FlavourArt -s USERNAME="myusername" -s PASSWORD="mypasswo
   * Molinberry (69 flavors)
   * EllasGourmet (76 flavors)
   * FlavorWest (367 flavors)
+  * CountryKitchen (6 flavors)
+  * Flavorah (180 flavors)

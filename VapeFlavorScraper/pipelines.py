@@ -78,7 +78,17 @@ class NameProcessingPipeline(object):
         '10ml',
         'Liquid',
         'FPF',
-        '\(MB\)'
+        '\(MB\)',
+        '\(1 Gallon\)',
+        '\(4 oz.\)',
+        '\(8 oz.\)',
+        '\(16 oz.\)',
+        '\(2 oz.\)',
+        '4 oz.',
+        '8 oz.',
+        '16 oz.',
+        '2 oz.',
+        '1 gallon',
     ]
 
     def process_item(self, item, spider):
